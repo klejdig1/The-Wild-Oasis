@@ -2,11 +2,14 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {login as loginApi} from "../../services/apiAuth.js";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
+import {useDarkMode} from "../../context/DarkModeContext.jsx";
+import styled from "styled-components";
 
 
 export function useLogin(){
     const navigate=useNavigate();
     const queryClient=useQueryClient();
+    const {isDarkMode} = useDarkMode();
 
 const {mutate:login,isLoading}=useMutation({
 
@@ -21,7 +24,11 @@ const {mutate:login,isLoading}=useMutation({
 
     onError:error => {
         console.log('ERROR',error)
-        toast.error('Provided email or password are incorrect!')
+        toast.error('Provided email or password are incorrect!',{
+            style:{
+                color:isDarkMode ? 'black':'',
+            }
+        })
     }
 })
 
